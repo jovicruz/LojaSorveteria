@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    
+    
+</head>
+<body class="text-center" style="
+background-image: url('https://thumbs.dreamstime.com/b/cute-ice-cream-waffle-glass-white-background-outline-doodle-seamless-pattern-border-print-fabrics-stationery-banners-187287580.jpg');
+" >
+    {% if SUCCESS %}
+    <div class="alert alert-warning d-inline-block m-2" role="alert">
+      {{ SUCCESS }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>  
+  {% endif %}
+
+  {% if ERROR %}
+    <div class="alert alert-danger d-inline-block m-2" role="alert">
+      {{ ERROR }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>  
+  {% endif %}
+  <br>
+    <script>
+        function escolheritem(item) {
+        document.getElementById("dropdownitem").innerHTML = item.innerHTML;
+        document.getElementById("username").value = item.innerHTML;}           
+    </script>
+      <div class="card m-auto mt-5" style="width: 18rem;">
+        <form action="{% url 'apagarUsuario' %}" method="post">
+          {% csrf_token %}
+            <div class="card-body">
+                <input name="username" class="form-control" id="username" type="hidden">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownitem" data-bs-toggle="dropdown" aria-expanded="false">
+                    Escolha um Usuario
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownitem">
+                    {% for users in users %}
+                        <li><a class="dropdown-item" href="#" onclick="escolheritem(this)">{{ users.username }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <br>
+                
+                <button type="submit" name="apagarUsuario" class="btn m-2 btn-primary">Apagar Usuario</button>
+                <button type="submit" name="tornarGerenciador" class="btn m-2 btn-primary">Tornar Usuario Gerenciador</button>
+                <button type="submit" name="removerGerenciador" class="btn m-2 btn-primary">Revogar Usuario Gerenciador</button>
+                <br>
+                <a href="{% url 'itemsView' %}" class="btn btn-primary btn-sm m-1">ITEMS</a>
+            </div>
+          </form>
+      </div>
+
+      <br>
+
+      
+</body>
+</html>
